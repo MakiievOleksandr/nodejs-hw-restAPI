@@ -49,7 +49,7 @@ const updateContact = async (contactId, body) => {
   if(idx === -1) {
     return null
   }
-  contacts[idx] = {contactId, ...body};
+  contacts[idx] = {id: contactId, ...body};
   await fs.writeFile(contactPath, JSON.stringify(contacts, null , 2));
   if(!contactId) {
     throw new HttpError(404, 'ID not found!')
