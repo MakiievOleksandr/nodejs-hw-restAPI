@@ -5,12 +5,12 @@ const cors = require('cors');
 require('dotenv').config();
 
 const contactsRouter = require('./routes/api/contactsRoutes');
-const errorHandler = require('./helpers/middleWares/errorHandler')
-const serverLogHandler = require('./helpers/middleWares/serverLogHandler')
+const errorHandler = require('./helpers/middleWares/errorHandler');
+const serverLogHandler = require('./helpers/middleWares/serverLogHandler');
 
-const app = express(); 
+const app = express();
 
-app.use(serverLogHandler)
+app.use(serverLogHandler);
 
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 
@@ -20,7 +20,7 @@ app.use(express.json());
 
 app.use('/api/contacts', contactsRouter);
 
-app.use((req, res) => {
+app.use((__, res) => {
   res.status(404).json({ message: 'Page not found' });
 });
 
