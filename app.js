@@ -5,12 +5,12 @@ const cors = require('cors');
 require('dotenv').config();
 
 const contactsRouter = require('./routes/api/contactsRoutes');
-const errorHandler = require('./helpers/middleWares/errorHandler')
-const serverLogHandler = require('./helpers/middleWares/serverLogHandler')
+const errorHandler = require('./helpers/middleWares/errorHandler');
+const serverLogHandler = require('./helpers/middleWares/serverLogHandler');
 
-const app = express(); 
+const app = express();
 
-app.use(serverLogHandler)
+app.use(serverLogHandler);
 
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 
