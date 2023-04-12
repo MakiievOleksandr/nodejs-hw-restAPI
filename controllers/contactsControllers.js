@@ -1,9 +1,5 @@
 const HttpError = require('../helpers/HttpError');
-const {
-  addSchema,
-  updateSchema,
-  updateFavoriteSchema,
-} = require('../utils/validating/contactValidationSchemes');
+
 const { ctrlsWrapper } = require('../utils');
 
 const Contact = require('../models/contact');
@@ -23,19 +19,11 @@ const getContact = async (req, res) => {
 };
 
 const addContact = async (req, res) => {
-  const { error } = addSchema.validate(req.body);
-  if (error) {
-    throw new HttpError(400, error.message);
-  }
   const result = await Contact.create(req.body);
   res.status(201).json(result);
 };
 
 const updateContact = async (req, res) => {
-  const { error } = updateSchema.validate(req.body);
-  if (error) {
-    throw new HttpError(400, error.message);
-  }
   const { id } = req.params;
   const result = await Contact.findByIdAndUpdate(id, req.body, { new: true });
   if (!result) {
@@ -45,10 +33,6 @@ const updateContact = async (req, res) => {
 };
 
 const updateStatusContact = async (req, res) => {
-  const { error } = updateFavoriteSchema.validate(req.body);
-  if (error) {
-    throw new HttpError(400, error.message);
-  }
   const { id } = req.params;
   const result = await Contact.findByIdAndUpdate(id, req.body, { new: true });
   if (!result) {
