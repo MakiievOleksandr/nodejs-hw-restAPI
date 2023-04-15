@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const HttpError = require('../helpers/HttpError');
+const HttpError = require('../helpers/middleWares/HttpError');
 const { ctrlsWrapper } = require('../utils');
 
 const User = require('../models/user');
@@ -12,15 +12,15 @@ const register = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   if (user) {
-    throw new HttpError(409, 'Email alredy in use');
+    throw new HttpError(409, 'Email in use');
   }
 
   const hashPass = await bcrypt.hash(password, 10);
   const result = await User.create({ ...req.body, password: hashPass });
 
   res.status(201).json({
-    name: result.name,
     email: result.email,
+    subscription: result.subscription,
   });
 };
 
@@ -28,12 +28,12 @@ const login = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   if (!user) {
-    throw new HttpError(401, 'Invalid email or password');
+    throw new HttpError(401, 'Email or password is wrong');
   }
 
   const passCompare = await bcrypt.compare(password, user.password);
   if (!passCompare) {
-    throw new HttpError(401, 'Invalid email or password');
+    throw new HttpError(401, 'Email or password is wrong');
   }
 
   const payload = {
@@ -42,17 +42,36 @@ const login = async (req, res) => {
 
   const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '20h' });
 
-  res.json({ token });
+  await User.findByIdAndUpdate(user._id, { token });
+  res.json({
+    token,
+    user: { email: user.email, subscription: user.subscription },
+  });
 };
 
 const getCurrent = async (req, res) => {
-  const { name, email } = req.user;
+  const { email, subscription } = req.user;
 
-  res.json({ name, email });
+  res.json({ email, subscription });
+};
+
+const logout = async (req, res) => {
+  const { _id } = req.user;
+  await User.findByIdAndUpdate(_id, { token: '' });
+
+  res.status(204).json();
+};
+
+const updateSubscription = async (req, res) => {
+  const { subscription } = req.user;
+  console.log(subscription);
+  res.json({ subscription });
 };
 
 module.exports = {
   register: ctrlsWrapper(register),
   login: ctrlsWrapper(login),
   getCurrent: ctrlsWrapper(getCurrent),
+  logout: ctrlsWrapper(logout),
+  updateSubscription: ctrlsWrapper(updateSubscription),
 };

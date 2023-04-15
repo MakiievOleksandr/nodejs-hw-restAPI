@@ -8,6 +8,8 @@ const {
   register,
   login,
   getCurrent,
+  logout,
+  updateSubscription,
 } = require('../../controllers/authControllers');
 
 const schemas = require('../../utils/validating/userValidation');
@@ -19,5 +21,9 @@ router.post('/register', validateBody(schemas.registerSchema), register);
 router.post('/login', validateBody(schemas.loginSchema), login);
 
 router.get('/current', authenticate, getCurrent);
+
+router.post('/logout', authenticate, logout);
+
+router.patch('/', authenticate, updateSubscription);
 
 module.exports = router;
