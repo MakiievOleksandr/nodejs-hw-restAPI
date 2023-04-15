@@ -63,9 +63,18 @@ const logout = async (req, res) => {
 };
 
 const updateSubscription = async (req, res) => {
-  const { subscription } = req.user;
-  console.log(subscription);
-  res.json({ subscription });
+  // const { email, subscription } = req.body;
+  const { _id, email } = req.user;
+
+  const result = await User.findByIdAndUpdate(_id, req.body.subscription, {
+    // new: true,
+  });
+
+  if (!result) {
+    throw new HttpError(404, 'ID not found');
+  }
+
+  res.json({ email, subscription: req.body.subscription });
 };
 
 module.exports = {
