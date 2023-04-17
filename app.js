@@ -2,13 +2,12 @@ const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
 
-require('dotenv').config();
-
 const authRouter = require('./routes/api/auth-routes');
 const contactsRouter = require('./routes/api/contactsRoutes');
 const errorHandler = require('./helpers/middleWares/errorHandler');
 const serverLogHandler = require('./helpers/middleWares/serverLogHandler');
 
+require('dotenv').config();
 const app = express();
 
 app.use(serverLogHandler);

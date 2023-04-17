@@ -1,4 +1,5 @@
 const express = require('express');
+
 const {
   getAllContacts,
   getContact,
@@ -7,11 +8,8 @@ const {
   deleteContact,
   updateStatusContact,
 } = require('../../controllers/contactsControllers');
-
 const { isValidId, authenticate } = require('../../helpers/middleWares');
-
 const { validateBody } = require('../../utils');
-
 const schemas = require('../../utils/validating/contactValidationSchemes');
 
 const router = express.Router();

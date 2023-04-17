@@ -6,10 +6,6 @@ const emailRegex = /^\w+([\\.-]?\w+)*@\w+([\\.-]?\w+)*(\.\w{2,3})+$/;
 
 const userSchema = new Schema(
   {
-    // name: {
-    //   type: String,
-    //   required: [true, 'Set name for contact'],
-    // },
     email: {
       type: String,
       match: emailRegex,

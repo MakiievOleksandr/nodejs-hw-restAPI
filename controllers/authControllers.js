@@ -3,9 +3,7 @@ const jwt = require('jsonwebtoken');
 
 const HttpError = require('../helpers/middleWares/HttpError');
 const { ctrlsWrapper } = require('../utils');
-
 const User = require('../models/user');
-
 const { SECRET_KEY } = process.env;
 
 const register = async (req, res) => {
@@ -63,11 +61,10 @@ const logout = async (req, res) => {
 };
 
 const updateSubscription = async (req, res) => {
-  // const { email, subscription } = req.body;
   const { _id, email } = req.user;
 
   const result = await User.findByIdAndUpdate(_id, req.body.subscription, {
-    // new: true,
+    new: true,
   });
 
   if (!result) {

@@ -1,9 +1,7 @@
 const express = require('express');
 
 const { validateBody } = require('../../utils');
-
 const { authenticate } = require('../../helpers/middleWares');
-
 const {
   register,
   login,
@@ -11,7 +9,6 @@ const {
   logout,
   updateSubscription,
 } = require('../../controllers/authControllers');
-
 const schemas = require('../../utils/validating/userValidation');
 
 const router = express.Router();
