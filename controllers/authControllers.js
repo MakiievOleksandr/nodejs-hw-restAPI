@@ -1,9 +1,11 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 const HttpError = require('../helpers/middleWares/HttpError');
 const { ctrlsWrapper } = require('../utils');
 const User = require('../models/user');
+// const { token } = require('morgan');
 const { SECRET_KEY } = process.env;
 
 const register = async (req, res) => {
@@ -39,7 +41,6 @@ const login = async (req, res) => {
   };
 
   const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '20h' });
-
   await User.findByIdAndUpdate(user._id, { token });
   res.json({
     token,
@@ -56,7 +57,7 @@ const getCurrent = async (req, res) => {
 const logout = async (req, res) => {
   const { _id } = req.user;
   await User.findByIdAndUpdate(_id, { token: '' });
-
+  // console.log(token);
   res.status(204).json();
 };
 
