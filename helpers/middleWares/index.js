@@ -3,6 +3,7 @@ const authenticate = require('./authenticate');
 const erroeHandler = require('./errorHandler');
 const serverLogHandler = require('./serverLogHandler');
 const HttpError = require('./HttpError');
+const upload = require('./upload');
 
 module.exports = {
   isValidId,
@@ -10,4 +11,5 @@ module.exports = {
   erroeHandler,
   serverLogHandler,
   HttpError,
+  upload,
 };
