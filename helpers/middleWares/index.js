@@ -4,6 +4,7 @@ const erroeHandler = require('./errorHandler');
 const serverLogHandler = require('./serverLogHandler');
 const HttpError = require('./HttpError');
 const upload = require('./upload');
+const sendEmail = require('./sendEmail');
 
 module.exports = {
   isValidId,
@@ -12,4 +13,5 @@ module.exports = {
   serverLogHandler,
   HttpError,
   upload,
+  sendEmail,
 };
