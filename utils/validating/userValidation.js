@@ -12,6 +12,12 @@ const registerSchema = Joi.object({
   }),
 });
 
+const verifyEmailSchema = Joi.object({
+  email: Joi.string().pattern(emailRegex).required().messages({
+    'any.required': `"Email" is required field`,
+  }),
+});
+
 const loginSchema = Joi.object({
   email: Joi.string().pattern(emailRegex).required().messages({
     'any.required': `"Email" is required field`,
@@ -32,6 +38,7 @@ const subscribeSchema = Joi.object({
 
 module.exports = {
   registerSchema,
+  verifyEmailSchema,
   loginSchema,
   subscribeSchema,
 };
